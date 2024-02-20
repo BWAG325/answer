@@ -1,0 +1,12 @@
+# ninja log v5
+1	5329	1708242261778133295	CMakeFiles/rosImage.dir/include/answer/rosImage.cpp.o	b0a4352e09caa34b
+20	56	1708161035586139468	answer_node	d87982b50412c1dc
+5329	5595	1708242262050139966	rosImage	d661c5af0bfa6f24
+0	20	1708161035550139815	CMakeFiles/answer_node.dir/src/answer_node.cpp.o	1c4c7c43d86104a0
+2	5388	1708243294022304374	CMakeFiles/rosImage.dir/include/answer/rosImage.cpp.o	b0a4352e09caa34b
+5388	5645	1708243294286277377	rosImage	d661c5af0bfa6f24
+2	11646	1708243642454245823	CMakeFiles/rosImage.dir/include/answer/rosImage.cpp.o	b0a4352e09caa34b
+11647	12191	1708243643010229758	rosImage	d661c5af0bfa6f24
+3	11803	1708248919002754284	CMakeFiles/rosImage.dir/include/answer/rosImage.cpp.o	b0a4352e09caa34b
+0	4948	1708249035292321257	CMakeFiles/answer_node.dir/src/answer_node.cpp.o	b33728127c135075
+2	5050	1708249082500142989	CMakeFiles/answer_node.dir/src/answer_node.cpp.o	b33728127c135075

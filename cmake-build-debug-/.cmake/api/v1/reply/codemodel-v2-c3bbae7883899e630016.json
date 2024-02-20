@@ -1,0 +1,97 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-46e31d36c57575ddc797.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "answer",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "answer_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-answer_node-Debug-5cf552e24b6d7b7224aa.json",
+					"name" : "answer_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "answer_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-answer_uninstall-Debug-00a17b771970d2e5484b.json",
+					"name" : "answer_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "returnPosition::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-returnPosition-Debug-67d69ab138a37b3420ba.json",
+					"name" : "returnPosition",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "rosImage::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-rosImage-Debug-196a3bc43874f683a9f6.json",
+					"name" : "rosImage",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-Debug-cf98bf90ab32888c1653.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/kon/CLionProjects/Phi/src/answer/cmake-build-debug-",
+		"source" : "/home/kon/CLionProjects/Phi/src/answer"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}
