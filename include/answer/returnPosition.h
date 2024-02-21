@@ -8,7 +8,13 @@
 #include <opencv2/opencv.hpp>
 
 class ImageProcessing{
-
+private:
+    cv::Mat originImage;
+    cv::Mat preImage;
+    void preTreatment();
+public:
+    ImageProcessing(cv::Mat &image);
+    //getLine()
 };
 
 #endif //ANSWER_RETURNPOSITION_H
