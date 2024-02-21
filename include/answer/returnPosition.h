@@ -10,8 +10,8 @@
 class ImageProcessing{
 private:
     cv::Mat originImage;
-    cv::Mat preImage;
-    void preTreatment();
+    cv::Mat pretreatmentImage;
+    void pretreatment();
 public:
     ImageProcessing(cv::Mat &image);
     //getLine()
