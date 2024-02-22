@@ -6,6 +6,7 @@
 void ImageSubscriber::getImage(const sensor_msgs::msg::Image::SharedPtr rosImage) {
     cv_bridge::CvImagePtr cvImage;
     cvImage = cv_bridge::toCvCopy(rosImage, sensor_msgs::image_encodings::BGR8);
+    cv::resize(cvImage->image, cvImage->image, cv::Size(rosImage->width, rosImage->height));
     ImageProcessing processingImage(cvImage->image);
 }
 

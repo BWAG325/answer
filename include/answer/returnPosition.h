@@ -6,15 +6,28 @@
 #define ANSWER_RETURNPOSITION_H
 
 #include <opencv2/opencv.hpp>
+#include <vector>
+#include <cmath>
 
-class ImageProcessing{
+class ImageProcessing {
 private:
     cv::Mat originImage;
     cv::Mat pretreatmentImage;
+    cv::Mat rotatedImage;
+
+    std::vector<cv::Vec2f> lines;
+    std::vector<std::vector<cv::Point>> contours;
+
     void pretreatment();
+
+    void judgmentLine();
+
+    void clickBlock();
+
+    void clickPosition();
+
 public:
     ImageProcessing(cv::Mat &image);
-    //getLine()
 };
 
 #endif //ANSWER_RETURNPOSITION_H
