@@ -6,6 +6,7 @@
 
 ImageProcessing::ImageProcessing(cv::Mat &image) {
     originImage = image;
+    decision = 0;
     ImageProcessing::pretreatment();
     ImageProcessing::judgmentLine();
     ImageProcessing::clickBlock();
@@ -23,55 +24,63 @@ void ImageProcessing::pretreatment() {
     cv::Mat closeCore = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(5, 5)); //开运算处理click边缘
     cv::morphologyEx(temporaryImage, temporaryImage, cv::MORPH_CLOSE, closeCore);
 
-    cv::Canny(temporaryImage, pretreatmentImage, 3, 1, 3); //边缘检测
-    cv::imwrite("pretreatment.png", pretreatmentImage);
+    cv::Canny(temporaryImage, pretreatmentImage, 100, 300); //边缘检测
+    //cv::imwrite("pretreatment.png", pretreatmentImage);
 }
 
 void ImageProcessing::judgmentLine() {
-    cv::HoughLines(pretreatmentImage, lines, 1, CV_PI / 180, 250);
-
-//    double rho = lines[0][1],theta = lines[1][1];  //旋转图像，没用上
-//    cv::Mat rotate = cv::getRotationMatrix2D(cv::Point2d ((pretreatmentImage.cols-1)/2.0,(pretreatmentImage.rows-1)/2.0),-(theta*360)/CV_PI,1);
-//    cv::warpAffine(pretreatmentImage,pretreatmentImage,rotate,originImage.size());
-//    cv::imwrite("rotate.png",pretreatmentImage);
-//
-//    cv::Point pt1, pt2;
-//    double a = cos(theta), b = sin(theta);
-//    double x0 = a * rho, y0 = b * rho;
-//    pt1.x = cvRound(x0 + 1000 * (-b));
-//    pt1.y = cvRound(y0 + 1000 * (a));
-//    pt2.x = cvRound(x0 - 1000 * (-b));
-//    pt2.y = cvRound(y0 - 1000 * (a));
-//    line(originImage, pt1, pt2, cv::Scalar(255, 255, 0), 1, cv::LINE_AA);
-//    cv::imwrite("line.png", originImage);
+    cv::HoughLinesP(pretreatmentImage, lines, 1, CV_PI / 180, 100, 200, 10);
+//    double theta = lines[1][1];  //旋转图像
+//    cv::Mat rotate = cv::getRotationMatrix2D(cv::Point2d ((pretreatmentImage.cols-1)/2.0,(pretreatmentImage.rows-1)/2.0),(CV_PI/2-theta)*360/CV_PI,1);
+//    cv::warpAffine(pretreatmentImage,rotatedImage,rotate,originImage.size());
+//    cv::imwrite("rotate.png",rotatedImage);
 }
 
 void ImageProcessing::clickBlock() {
+//    int i = 0;
     std::vector<cv::Vec<int, 4>> hierarchy;
-    cv::findContours(pretreatmentImage, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_NONE); //轮廓检测，且只记录拐点
-    cv::drawContours(pretreatmentImage, contours, 0, 255, -1);  //不用循环
-    cv::imwrite("click.png", pretreatmentImage);
+    cv::findContours(pretreatmentImage, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE); //轮廓检测，且只记录拐点
+    //    for (auto &p: contours) {
+//        cv::drawContours(pretreatmentImage, contours, i, 255, -1);  //不用循环
+//        i++;
+//    }
+//    cv::imwrite("clickBlock.png", pretreatmentImage);
 }
 
 void ImageProcessing::clickPosition() {
-    // y = k x + b
-    // y = ( -cos a / sin a ) x + ( r / sin a )
-    // cos a X + sin a Y - r / sin a = 0
-    // a X + b y + c = 0
-    int distance,log=20;
-    cv::Point clickPoint;
-    clickPoint.x = 0;
-    clickPoint.y = 0;
-    double rho = lines[0][1], theta = lines[1][1];
-    for (auto &p:contours) {
+    cv::Point2d clickPoint;
+    int count=0;
+    double A=0, B=0, C=0, distance = 200, log = 100;
+//    A = lines[0][1] - lines[0][3];
+//    B = lines[0][2] - lines[0][0];
+//    C = lines[0][0] * lines[0][3] - lines[0][2] * lines[0][1];
+    for (auto &p: lines) {
+        count ++;
+        A += p[1] - p[3];
+        B += p[2] - p[0];
+        C += p[0] * p[3] - p[2] * p[1];
+    }
+    A = A / count;
+    B = B / count;
+    C = C / count;
+    for (auto &p: contours) {
+//        cv::RotatedRect rotateRect = cv::minAreaRect(p);
+//        clickPoint = rotateRect.center;
         auto middle = cv::moments(p, false);
         clickPoint.x = middle.m10 / middle.m00;
         clickPoint.y = middle.m01 / middle.m00;
-        distance = fabs(cos(theta) * clickPoint.x + sin(theta) * clickPoint.y - rho / sin(theta)) /
-                   sqrt(pow(clickPoint.x, 2) + pow(clickPoint.y, 2));
-        if(distance < log) log = distance;
+        distance = fabs(A * clickPoint.x + B * clickPoint.y + C) / sqrt(A * A + B * B);
+        if (distance > log) distance = log;
+        else log = distance;
     }
-    if (log < 10 && log > 0) {
-        std::cout << "distance " << log << "x " << clickPoint.x << "y "<< clickPoint.y<< std::endl;
-    }
+    std::cout << "distance : " << distance << "   (x,y) " << clickPoint.x << "   " << clickPoint.y << "  C " << -C / B
+              << std::endl;
+    if (distance < 60 && distance > 0) {
+        decision = 1;
+        cv::imwrite("clickNow.png", originImage);
+    } else decision = 0;
 }
+
+//colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+//source install/setup.bash
+//ros2 launch answer answer.py

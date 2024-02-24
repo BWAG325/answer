@@ -15,8 +15,10 @@ private:
     cv::Mat pretreatmentImage;
     cv::Mat rotatedImage;
 
-    std::vector<cv::Vec2f> lines;
+    std::vector<cv::Vec4i>lines;
     std::vector<std::vector<cv::Point>> contours;
+
+    int decision;
 
     void pretreatment();
 
