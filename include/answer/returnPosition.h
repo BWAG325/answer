@@ -11,14 +11,15 @@
 
 class ImageProcessing {
 private:
+    int delayTime;
+
     cv::Mat originImage;
-    cv::Mat pretreatmentImage;
-    cv::Mat rotatedImage;
+    cv::Mat lineImage;
+    cv::Mat clickBlockImage;
+    cv::Mat checkImage;
 
     std::vector<cv::Vec4i>lines;
     std::vector<std::vector<cv::Point>> contours;
-
-    int decision;
 
     void pretreatment();
 
@@ -27,9 +28,12 @@ private:
     void clickBlock();
 
     void clickPosition();
-
 public:
-    ImageProcessing(cv::Mat &image);
+    int decision;
+    double distance;
+    cv::Point2d clickPoint;
+
+    ImageProcessing(cv::Mat &image,int delay);
 };
 
 #endif //ANSWER_RETURNPOSITION_H
