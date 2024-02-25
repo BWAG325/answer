@@ -11,7 +11,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include <opencv2/opencv.hpp>
 
-#include "returnPosition.h"
+#include "processImage.h"
 
 using namespace std::chrono_literals;
 
@@ -22,8 +22,8 @@ private:
     void getImage(const sensor_msgs::msg::Image::SharedPtr rosImage);
 
     cv::Mat gameImage;
+    cv::Point2d clickPoint;
     geometry_msgs::msg::Point32 position;
-    int delayTime=0;
 
     rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr subscription_;
     rclcpp::Publisher<geometry_msgs::msg::Point32>::SharedPtr publisher_;
